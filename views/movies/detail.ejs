@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= movie.title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>
+      <%= movie.title %> - <%= movie.rating %> /10
+    </h1>
+    <ul>
+        <li><b>Year: </b> <%= new Date(movie.release_date).getFullYear() %></li>
+        <li><b>Awards: </b> <%= movie.awards %></li>
+    </ul>
+  </body>
+</html>

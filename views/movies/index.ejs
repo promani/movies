@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Movies</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Movies (<%= movies.length %>) </h1>
+    <ul>
+      <% movies.forEach(movie => { %>
+        <li><a href="/movies/<%= movie.id %>/detail"><%= movie.title %> - <%= new Date(movie.release_date).getFullYear() %></a></li>
+       <% }) %>
+    </ul>
+  </body>
+</html>
