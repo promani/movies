@@ -2,12 +2,16 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var session = require('express-session');
 var logger = require('morgan');
+
+let db = require("./database/models");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var actorsRouter = require('./routes/actors');
 var moviesRouter = require('./routes/movies');
+var securityRouter = require('./routes/security');
 
 var app = express();
 
@@ -19,9 +23,40 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({ secret:'moviesdb', resave: false, saveUninitialized: true } ));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
+const publicRoutes = [
+  '/login', '/register'
+]
+
+app.use(function(req, res, next){
+  if(req.cookies.userId != undefined && req.session.user == undefined){
+    db.User.findByPk(req.cookies.userId, { raw: true })
+    .then( user => {
+      req.session.user = user;
+      return next();
+    })
+    .catch( e => { next(createError(e.status)) })
+  } else {
+    return next();
+  }
+})
+
+app.use(function(req, res, next){
+  if(req.session.user != undefined){
+    res.locals = req.session.user
+  } else {
+    if (!publicRoutes.includes(req.path)) {
+      return res.redirect('/login')
+    }
+  }
+  next();
+});
+
 app.use('/', indexRouter);
+app.use('/', securityRouter);
 app.use('/users', usersRouter);
 app.use('/actors', actorsRouter);
 app.use('/movies', moviesRouter);

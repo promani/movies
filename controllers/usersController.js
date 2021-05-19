@@ -11,7 +11,7 @@ let usersController = {
         .catch((error) => {
             return res.send(error);
         })
-    },
+    }
 }
 
 module.exports = usersController;

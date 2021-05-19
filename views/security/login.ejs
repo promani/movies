@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Login</h1>
+    <form method="POST">
+      <label for="email">Email:</label><br>
+      <input type="text" id="email" name="email"> <br>
+      <label for="password">Password:</label><br>
+      <input type="password" id="password" name="password"><br>
+      <input type="checkbox" id="rememberme" name="rememberme">
+      <label for="rememberme">Rememberme</label><br><br>
+      <input type="submit" value="Submit">
+      <% if (locals.error) { %>
+        <span style="color:red"><%= locals.error %></span>
+      <% } %>
+    </form>
+  </body>
+</html>

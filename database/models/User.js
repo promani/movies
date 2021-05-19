@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
         email: {
             type: DataTypes.STRING
         },
+        password: {
+            type: DataTypes.STRING
+        },
     }
 
     let config = {

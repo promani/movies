@@ -5,12 +5,15 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>
-      <%= movie.title %> - <%= movie.rating %> /10
-    </h1>
+    <h1><%= movie.title %> - <%= movie.rating %> /10</h1>
     <ul>
         <li><b>Year: </b> <%= new Date(movie.release_date).getFullYear() %></li>
         <li><b>Awards: </b> <%= movie.awards %></li>
     </ul>
+    <input type="button" onclick="location.href='/movies/<%= movie.id %>/edit';" value="Edit" />
+    
+    <form method="POST" action="/movies/<%= movie.id %>/delete">
+      <input type="button" value="Delete" />
+    </form>
   </body>
 </html>

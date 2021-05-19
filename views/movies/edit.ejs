@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit movie</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Edit movie</h1>
+    <form method="POST">
+      <label for="title">Title:</label><br>
+      <input type="text" id="title" name="title" value=<%= movie.title %>> <br>
+      <label for="rating">Rating:</label><br>
+      <input type="integer" id="awards" name="awards" value=<%= movie.rating %>><br>
+      <label for="release_date">Release date:</label><br>
+      <input type="date" id="release_date" name="release_date" value=<%= movie.release_date %>><br>
+      <label for="length">Length:</label><br>
+      <input type="integer" id="length" name="length" value=<%= movie.length %>><br>
+      <label for="genre">Genre:</label><br>
+      <select name="genre" id="genre" value=<%= movie.genre %>>
+        <% for( let index = 0; index < genres.length; index++ ) { %>
+          <option value="<%= genres[index].first_name %>">
+            <%= genres[index].first_name %>
+          </option>
+        <% } %>
+      </select><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

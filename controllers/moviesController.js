@@ -59,6 +59,75 @@ let moviesController = {
             return res.send(error);
         })
     },
+    form: function (req, res) {
+        db.Actor.findAll()
+            .then((data) => {
+                return res.render('movies/create', {
+                    genres: data
+                });
+            })
+    },
+    store: function (req, res) {
+        db.Movie.create(req.body)
+        .then(() => {
+            res.redirect('/movies')
+        })
+        .catch((error) => {
+            return res.send(error);
+        })
+    },
+    search: function (req, res) {
+        let criteria = req.query.search
+
+        db.Movie.findAll({
+            where: [
+                { title: { [op.like]: '%'+criteria+'%'} }
+            ],
+        })
+        .then((data) => {
+            return res.render('movies/index', { 
+                movies: data 
+            });
+        })
+    },
+    edit: function (req, res) {
+        db.Actor.findAll()
+            .then((genres) => {
+                db.Movie.findByPk(req.params.id)
+                    .then((movie) => {
+                        return res.render('movies/edit', { 
+                            genres: genres,
+                            movie: movie 
+                        });
+                    })
+            })
+    },
+    update: function (req, res) {
+        db.Movie.update(req.body, {
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(() => {
+            res.redirect('/movies')
+        })
+        .catch((error) => {
+            return res.send(error);
+        })
+    },
+    delete: function (req, res) {
+        db.Movie.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(() => {
+            res.redirect('/movies')
+        })
+        .catch((error) => {
+            return res.send(error);
+        })
+    }
 }
 
 module.exports = moviesController;
