@@ -23,7 +23,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({ secret:'moviesdb', resave: false, saveUninitialized: true } ));
+app.use(session({ secret:'moviesdb', resave: false, saveUninitialized: false } ));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -33,20 +33,20 @@ const publicRoutes = [
 
 app.use(function(req, res, next){
   if(req.cookies.userId != undefined && req.session.user == undefined){
-    db.User.findByPk(req.cookies.userId, { raw: true })
+    db.User.findByPk(req.cookies.userId)
     .then( user => {
       req.session.user = user;
       return next();
     })
     .catch( e => { next(createError(e.status)) })
   } else {
-    return next();
+    next()
   }
 })
 
 app.use(function(req, res, next){
   if(req.session.user != undefined){
-    res.locals = req.session.user
+    res.locals.user = req.session.user;
   } else {
     if (!publicRoutes.includes(req.path)) {
       return res.redirect('/login')

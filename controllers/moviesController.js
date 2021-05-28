@@ -90,17 +90,16 @@ let moviesController = {
             });
         })
     },
-    edit: function (req, res) {
-        db.Actor.findAll()
-            .then((genres) => {
-                db.Movie.findByPk(req.params.id)
-                    .then((movie) => {
-                        return res.render('movies/edit', { 
-                            genres: genres,
-                            movie: movie 
-                        });
-                    })
-            })
+    edit: async (req, res) => {
+        let genres = await db.Genres.findAll();
+        let actors = await db.Actor.findAll();
+        let movie = await db.Movie.findByPk(req.params.id);
+
+        return res.render('movies/edit', { 
+            genres: genres,
+            actors: actors,
+            movie: movie 
+        });
     },
     update: function (req, res) {
         db.Movie.update(req.body, {
