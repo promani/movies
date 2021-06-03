@@ -8,19 +8,17 @@
     <h1>Edit movie</h1>
     <form method="POST">
       <label for="title">Title:</label><br>
-      <input type="text" id="title" name="title" value=<%= movie.title %>> <br>
+      <input type="text" id="title" name="title" value="<%= movie.title %>"> <br>
       <label for="rating">Rating:</label><br>
-      <input type="integer" id="awards" name="awards" value=<%= movie.rating %>><br>
+      <input type="integer" id="awards" name="awards" value="<%= movie.rating %>"><br>
       <label for="release_date">Release date:</label><br>
-      <input type="date" id="release_date" name="release_date" value=<%= movie.release_date %>><br>
+      <input type="date" id="release_date" name="release_date" value="<%= movie.release_date %>"><br>
       <label for="length">Length:</label><br>
-      <input type="integer" id="length" name="length" value=<%= movie.length %>><br>
+      <input type="integer" id="length" name="length" value="<%= movie.length %>"><br>
       <label for="genre">Genre:</label><br>
-      <select name="genre" id="genre" value=<%= movie.genre %>>
+      <select name="genre_id" id="genre_id" value="<%= movie.genre_id %>">
         <% for( let index = 0; index < genres.length; index++ ) { %>
-          <option value="<%= genres[index].first_name %>">
-            <%= genres[index].first_name %>
-          </option>
+          <option value="<%= genres[index].id %>"><%= genres[index].name %></option>
         <% } %>
       </select><br>
       <input type="submit" value="Submit">

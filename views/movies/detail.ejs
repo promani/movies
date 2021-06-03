@@ -9,6 +9,13 @@
     <ul>
         <li><b>Year: </b> <%= new Date(movie.release_date).getFullYear() %></li>
         <li><b>Awards: </b> <%= movie.awards %></li>
+        <li><b>Genre: </b> <a href="/genres/<%= movie.genre.id %>"><%= movie.genre.name %> (<%= movie.genre.ranking %>)</a></li>
+    </ul>
+    <h4>Actors (<%= movie.actors.length %>)</h4>
+    <ul>
+      <% movie.actors.forEach(actor => { %>
+        <li><%= actor.first_name %> <%= actor.last_name %></li>
+      <% }) %>
     </ul>
     <input type="button" onclick="location.href='/movies/<%= movie.id %>/edit';" value="Edit" />
     

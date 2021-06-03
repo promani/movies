@@ -1,3 +1,5 @@
+let db = require(".");
+
 module.exports = (sequelize, DataTypes) => {
     let alias = 'Actor';
 
@@ -33,6 +35,13 @@ module.exports = (sequelize, DataTypes) => {
     }
 
     const Actor = sequelize.define(alias, cols, config);
+
+    Actor.associate = function(models){
+        Actor.belongsTo(models.Movie, {
+            as: "favouriteMovie",
+            foreignKey: "favorite_movie_id"
+        });
+    }
 
     return Actor;
 }

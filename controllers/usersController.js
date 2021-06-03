@@ -5,7 +5,7 @@ let usersController = {
         db.User.findAll()
         .then((data) => {
             return res.render('users/index', { 
-                users: data 
+                users: data,
             });
         })
         .catch((error) => {

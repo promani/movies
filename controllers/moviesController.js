@@ -1,10 +1,17 @@
+const { sequelize } = require("../database/models");
 let db = require("../database/models");
+const Actor = require("../database/models/Actor");
 
 const op = db.Sequelize.Op;
 
 let moviesController = {
     detail: function (req, res) {
-        db.Movie.findByPk(req.params.id)
+        db.Movie.findByPk(req.params.id, {
+            include: [
+                {association: "genre"},
+                {association: "actors"},
+            ]
+        })
         .then((data) => {
             return res.render('movies/detail', { 
                 movie: data 
@@ -41,6 +48,21 @@ let moviesController = {
             return res.send(error);
         })
     },
+    actors: function (req, res) {
+        db.Movie.findAll({
+            attributes: ['Movie.*',[sequelize.fn('count', sequelize.col('actors->actor_movie.movie_id')), 'ActorCount']],
+            group: ["actors->actor_movie.movie_id"],
+            include: [ {association: 'actors', attributes:[]} ]
+        })
+        .then((data) => {
+            return res.render('movies/index', { 
+                movies: data 
+            });
+        })
+        .catch((error) => {
+            res.send(error)
+        })
+    },
     recomended: function (req, res) {
         db.Movie.findAll({
             where: [
@@ -60,7 +82,7 @@ let moviesController = {
         })
     },
     form: function (req, res) {
-        db.Actor.findAll()
+        db.Genres.findAll()
             .then((data) => {
                 return res.render('movies/create', {
                     genres: data
@@ -92,12 +114,10 @@ let moviesController = {
     },
     edit: async (req, res) => {
         let genres = await db.Genres.findAll();
-        let actors = await db.Actor.findAll();
         let movie = await db.Movie.findByPk(req.params.id);
 
         return res.render('movies/edit', { 
             genres: genres,
-            actors: actors,
             movie: movie 
         });
     },

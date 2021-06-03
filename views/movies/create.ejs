@@ -6,7 +6,7 @@
   </head>
   <body>
     <h1>New movie</h1>
-    <form action="/movies/create" method="POST">
+    <form action="/movies/create" method="POST" enctype="multipart/form-data">
       <label for="title">Title:</label><br>
       <input type="text" id="title" name="title"><br>
       <label for="rating">Rating:</label><br>
@@ -18,9 +18,9 @@
       <label for="length">Length:</label><br>
       <input type="integer" id="length" name="length"><br>
       <label for="genre">Genre:</label><br>
-      <select name="genre" id="genre">
+      <select name="genre_id" id="genre_id">
         <% for( let index = 0; index < genres.length; index++ ) { %>
-          <option value="volvo"><%= genres[index].first_name %> </option>
+          <option value="<%= genres[index].id %>"><%= genres[index].name %></option>
         <% } %>
       </select><br>
       <input type="submit" value="Submit">
